@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-
+import { BehaviorSubject } from 'rxjs';
+import { Permission } from './permission.model';
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionDataService {
-  permissionData: any[] = [
+  private permissionData: any[] = [
     {
       name: 'Job',
       value: true,
@@ -149,5 +150,40 @@ export class PermissionDataService {
     },
   ];
 
+  private defaultPermissionState = new BehaviorSubject<Permission[]>(
+    JSON.parse(JSON.stringify(this.permissionData))
+  );
+
+  defualtPermissions$ = this.defaultPermissionState.asObservable();
+
   constructor() {}
+
+  resetToDefault() {
+    this.defaultPermissionState.next(
+      JSON.parse(JSON.stringify(this.permissionData))
+    );
+  }
+
+  updatePermission(update: Permission[]) {
+    this.defaultPermissionState.next(update);
+  }
+
+  togglePermission(on: boolean) {
+    const updates = this.defaultPermissionState
+      .getValue()
+      .map((p) => this.deepTooglePermission(p.permissions || [], on));
+  }
+
+  deepTooglePermission(permission: Permission[], on: boolean): Permission[] {
+    console.log(permission);
+    return permission.map((p) => {
+      return {
+        ...p,
+        value: p.isDisable ? p.value : on,
+        permissions: p.permissions
+          ? this.deepTooglePermission(p.permissions, on)
+          : undefined,
+      };
+    });
+  }
 }
