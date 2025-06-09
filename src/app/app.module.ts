@@ -15,6 +15,10 @@ import { DepartmentsComponent } from './Pages/departments/departments.component'
 import { PermissionsComponent } from './permissions/permissions.component';
 import { ErrorMessageComponent } from './Pages/error-message/error-message.component';
 
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +36,9 @@ import { ErrorMessageComponent } from './Pages/error-message/error-message.compo
     NoopAnimationsModule,
     MatSidenavModule,
     AppRoutingModule,
+    CdkAccordionModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -36,11 +36,11 @@ const routes: Route[] = [
     component: JobComponent,
   },
   {
-    path: 'Hire',
+    path: 'hire',
     component: HireComponent,
   },
   {
-    path: 'Departments',
+    path: 'departments',
     component: DepartmentsComponent,
   },
   {

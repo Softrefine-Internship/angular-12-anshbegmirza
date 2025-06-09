@@ -1,1 +1,63 @@
-<p>permissions works!</p>
+<div class="container outline side-container">
+  <!-- top header -->
+  <div class="header d-flex justify-content-between align-items-center">
+    <h3 class="header-title">Permission Page:</h3>
+
+    <div class="header-actionables">
+      <button class="btn btn-outline-secondary btn-sm" (click)="resetAll()">
+        Defualt
+      </button>
+      <button class="btn btn-outline-primary btn-sm" (click)="toggleAll()">
+        {{selectAll ? 'Deselect All' : 'Select All'}}
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Accordion part -->
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let sp of permissions" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="d-flex justify-content-between align-items-center">
+          {{sp.name}}
+          <mat-slide-toggle [checked]="sp.value" (change)="togglePermission(sp)" [disabled]="sp.isDisable">
+
+          </mat-slide-toggle>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+      <div *ngIf="sp.permissions">
+        <ng-container *ngFor="let child of sp.permissions">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="d-flex justify-content-between align-items-center">
+              {{child.name}}
+              <mat-slide-toggle [checked]="child.value" (change)="togglePermission(child)" [disabled]="child.isDisable">
+
+              </mat-slide-toggle>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+
+          <div *ngIf="child.permissions">
+            <ng-container *ngFor="let grandChild of child.permissions">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="d-flex justify-content-between align-items-center">
+                  {{grandChild.name}}
+                  <mat-slide-toggle [checked]="grandChild.value" (change)="togglePermission(grandChild)"
+                    [disabled]="grandChild.isDisable">
+
+                  </mat-slide-toggle>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+            </ng-container>
+          </div>
+
+
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+</div>

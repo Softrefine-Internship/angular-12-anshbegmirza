@@ -164,14 +164,17 @@ export class PermissionDataService {
     );
   }
 
-  updatePermission(update: Permission[]) {
-    this.defaultPermissionState.next(update);
-  }
-
-  togglePermission(on: boolean) {
-    const updates = this.defaultPermissionState
-      .getValue()
-      .map((p) => this.deepTooglePermission(p.permissions || [], on));
+  toggleAllPermissions(on: boolean) {
+    let updatedPermissions = this.defaultPermissionState.getValue().map((p) => {
+      return {
+        ...p,
+        value: p.isDisable ? p.value : on,
+        permissions: p.permissions
+          ? this.deepTooglePermission(p.permissions, on)
+          : undefined,
+      };
+    });
+    this.defaultPermissionState.next(updatedPermissions);
   }
 
   deepTooglePermission(permission: Permission[], on: boolean): Permission[] {
@@ -185,5 +188,18 @@ export class PermissionDataService {
           : undefined,
       };
     });
+  }
+
+  flattenPermissions(permission: Permission[]): Permission[] {
+    let flatPermissions: Permission[] = [];
+    permission.forEach((p) => {
+      flatPermissions.push(p);
+      if (p.permissions) {
+        flatPermissions = flatPermissions.concat(
+          this.flattenPermissions(p.permissions)
+        );
+      }
+    });
+    return flatPermissions;
   }
 }

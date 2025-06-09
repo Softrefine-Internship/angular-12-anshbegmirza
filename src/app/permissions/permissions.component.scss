@@ -1,0 +1,26 @@
+.header {
+  margin: 0.5rem 1rem;
+  // outline: 1px solid lime;
+  margin-bottom: 1rem;
+  width: 100%;
+  &-title {
+    font-size: 1.2rem;
+    margin: 0;
+    // display: block;
+  }
+
+  &-actionables {
+    button {
+      margin: 0 0.3rem;
+    }
+  }
+}
+
+// .outline {
+//   outline: 1px solid lime;
+// }
+
+.side-container {
+  width: 69rem;
+  margin: 2.2rem 0;
+}
