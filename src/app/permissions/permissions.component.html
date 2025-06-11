@@ -16,19 +16,20 @@
 
   <!-- Accordion part -->
   <mat-accordion multi>
-    <mat-expansion-panel *ngFor="let sp of permissions" hideToggle>
+    <mat-expansion-panel *ngFor="let sp of permissions" class="">
       <mat-expansion-panel-header>
         <mat-panel-title class="d-flex justify-content-between align-items-center">
           {{sp.name}}
-          <mat-slide-toggle [checked]="sp.value" (change)="togglePermission(sp)" [disabled]="sp.isDisable">
+          <mat-slide-toggle [checked]="sp.value" (change)="togglePermission(sp)" [disabled]="sp.isDisable"
+            (click)="$event.preventDefault()">
 
           </mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-
-      <div *ngIf="sp.permissions">
+      <div *ngIf="sp.permissions" class="outline">
         <ng-container *ngFor="let child of sp.permissions">
+
           <mat-expansion-panel-header>
             <mat-panel-title class="d-flex justify-content-between align-items-center">
               {{child.name}}
@@ -39,8 +40,10 @@
           </mat-expansion-panel-header>
 
 
+
           <div *ngIf="child.permissions">
             <ng-container *ngFor="let grandChild of child.permissions">
+
               <mat-expansion-panel-header>
                 <mat-panel-title class="d-flex justify-content-between align-items-center">
                   {{grandChild.name}}
@@ -52,8 +55,6 @@
               </mat-expansion-panel-header>
             </ng-container>
           </div>
-
-
         </ng-container>
       </div>
     </mat-expansion-panel>

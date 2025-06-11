@@ -22,6 +22,7 @@ export class PermissionsComponent implements OnInit {
   togglePermission(permission: Permission) {
     if (!permission.isDisable) {
       permission.value = !permission.value;
+      console.log(permission);
     }
 
     if (permission.permissions) {
@@ -29,6 +30,7 @@ export class PermissionsComponent implements OnInit {
         this.togglePermission(p);
       });
     }
+    this.permissionService.updatePermission(this.permissions);
   }
 
   toggleAll() {

@@ -9,6 +9,7 @@ import { HireComponent } from './Pages/hire/hire.component';
 import { DepartmentsComponent } from './Pages/departments/departments.component';
 import { ErrorMessageComponent } from './Pages/error-message/error-message.component';
 import { PermissionsComponent } from './permissions/permissions.component';
+// import { AuthGuard } from './permissions/permissions.auth.guard';
 const routes: Route[] = [
   {
     path: '',
@@ -22,26 +23,32 @@ const routes: Route[] = [
   {
     path: 'settings',
     component: SettingsComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'candidate',
     component: CandidateComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'reports',
     component: ReportsComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'job',
     component: JobComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'hire',
     component: HireComponent,
+    // canActivate: [AuthGuard],
   },
   {
-    path: 'departments',
+    path: 'department',
     component: DepartmentsComponent,
+    // canActivate: [AuthGuard],
   },
   {
     path: 'not-found',

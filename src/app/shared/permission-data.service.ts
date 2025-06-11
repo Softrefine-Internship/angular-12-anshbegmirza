@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Permission } from './permission.model';
+import { map } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -9,7 +11,7 @@ export class PermissionDataService {
     {
       name: 'Job',
       value: true,
-      icon: '<i class="bi bi-briefcase-fill"></i>',
+      icon: 'bi bi-briefcase-fill',
       isDisable: false,
       permissions: [
         {
@@ -24,7 +26,7 @@ export class PermissionDataService {
           permissions: [
             {
               name: 'View Job Details',
-              value: false,
+              value: true,
               isDisable: false,
             },
             {
@@ -36,7 +38,7 @@ export class PermissionDataService {
         },
         {
           name: 'Edit Job',
-          value: false,
+          value: true,
           isDisable: false,
         },
       ],
@@ -45,7 +47,7 @@ export class PermissionDataService {
       name: 'Candidate',
       value: true,
       isDisable: false,
-      icon: '<i class="bi bi-person-fill"></i>',
+      icon: 'bi bi-person-fill',
       permissions: [
         {
           name: 'Add Candidate',
@@ -80,7 +82,7 @@ export class PermissionDataService {
       name: 'Settings',
       value: true,
       isDisable: true,
-      icon: ' <i class="bi bi-gear-fill"></i>',
+      icon: 'bi bi-gear-fill',
       permissions: [
         {
           name: 'Manage Settings',
@@ -98,7 +100,7 @@ export class PermissionDataService {
       name: 'Reports',
       value: false,
       isDisable: false,
-      icon: '<i class="bi bi-journal-bookmark-fill"></i>',
+      icon: 'bi bi-journal-bookmark-fill',
       permissions: [
         {
           name: 'Generate Reports',
@@ -116,7 +118,7 @@ export class PermissionDataService {
       name: 'Hire',
       value: false,
       isDisable: false,
-      icon: '<i class="bi bi-person-plus-fill"></i>',
+      icon: 'bi bi-person-plus-fill',
       permissions: [
         {
           name: 'Create Job Opening',
@@ -134,7 +136,7 @@ export class PermissionDataService {
       name: 'Department',
       value: true,
       isDisable: true,
-      icon: '<i class="bi bi-person-plus-fill"></i>',
+      icon: 'bi bi-person-plus-fill',
       permissions: [
         {
           name: 'View Departments',
@@ -162,6 +164,25 @@ export class PermissionDataService {
     this.defaultPermissionState.next(
       JSON.parse(JSON.stringify(this.permissionData))
     );
+  }
+
+  updatePermission(update: Permission[]) {
+    this.defaultPermissionState.next(update);
+  }
+
+  getActiveModules() {
+    return this.defaultPermissionState.pipe(
+      map((permission) => {
+        permission.filter((p) => p.value);
+        return permission;
+      })
+    );
+  }
+
+  getModuleByName(name: string): Permission | undefined {
+    return this.defaultPermissionState
+      .getValue()
+      .find((permission) => permission.name === name);
   }
 
   toggleAllPermissions(on: boolean) {
@@ -201,5 +222,11 @@ export class PermissionDataService {
       }
     });
     return flatPermissions;
+  }
+
+  hasPermission(name: string, permission: Permission[]): boolean {
+    const flatPermissions = this.flattenPermissions(permission);
+    const foundPermission = flatPermissions.find((p) => p.name === name);
+    return foundPermission ? foundPermission.value : false;
   }
 }

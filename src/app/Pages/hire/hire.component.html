@@ -1,1 +1,22 @@
-<p>hire works!</p>
+<div class="container mt-5 colx-xs-12 w-100">
+  <div class="title">
+    <h3 style="font-size: 1.2rem;">{{activeModule?.name}} Permissions</h3>
+  </div>
+
+  <div class="col-xs-12">
+    <ul class="list-group ">
+      <li class="list-group-item d-flex justify-content-between gap-5" *ngFor="let permission of subPermissions">
+        <p>{{permission.name}}</p>
+        <button class="btn btn-primary btn-sm" *ngIf="!permission.permissions"
+          [disabled]="permission.isDisable">Edit</button>
+        <ul *ngIf="permission.permissions">
+          <li class="list-group-item d-flex justify-content-between gap-5" *ngFor="let child of permission.permissions">
+            <p>{{child.name}}</p>
+            <button class="btn btn-primary btn-sm" [disabled]="child.isDisable">Edit</button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+</div>
